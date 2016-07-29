@@ -31,6 +31,5 @@ describe('postnet', function () {
     let barcode = trans2Barcode(checkCDZipCode,barcodeList);
     expect(barcode).toEqual(expected);
   })
-
   }
 );
