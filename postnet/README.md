@@ -100,7 +100,7 @@ Allow user to enter a zip code (5, 9, or 10 characters: the 9 digit zip is a 10 
 Allow user to enter the barcode and have it convert it back to a zip code.  Insert a hyphen for the 9 digit zips
 Quit
 (check digit)You will need to print all output for the user.
-You will need to validate user entries for all data input.
+You will need to validate user entries for all data input.ff
 
 
 Validation Check:       45056-1234   ==   |:|::|:|:|:||::::|:|::||:::::||::|:|::||::|::|||:::|
