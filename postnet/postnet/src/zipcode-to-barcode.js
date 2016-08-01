@@ -1,7 +1,8 @@
 'use strict';
 
-let allCodes = require('../src/loadAllcodes.js');
 let _ = require('lodash');
+let allCodes = require('../src/loadAllcodes');
+
 
 let checkZipcode = function (input) {
 
