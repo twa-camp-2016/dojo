@@ -10,11 +10,19 @@ function loadAllItems() {
         {barcode: '|::|:', zipcode: 8},
         {barcode: '|:|::', zipcode: 9},
         {barcode: '||:::', zipcode: 0},
+        {barcode: '||:::', zipcode: 10}
+    ]
+}
+
+function correntBarcode() {
+    return [
+        ':::||', '::|:|', '::||:', ':|::|', ':|:|:', ':||::', '|:::|', '|::|:', '|:|::', '||:::'
     ]
 }
 
 module.exports={
-    loadAllItems:loadAllItems
+    loadAllItems:loadAllItems,
+    correntBarcode
 }
 
 //uhiupjp

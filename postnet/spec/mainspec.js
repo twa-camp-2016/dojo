@@ -1,3 +1,5 @@
+//noinspection JSValidateTypes
+/*global require*/
 let {
     getFormatedZipcode,
     getArrayZipcode,
@@ -7,8 +9,11 @@ let {
     getZipcodeArray,
     getZipcode,
     buildBarcode,
-    buildZipcode
-}=require('../src/main');
+    buildZipcode,
+    buildJudgeExecuteBarcode,
+    buildJudgeExecuteZipcode
+}= require('../src/main');
+
 let {loadAllItems}=require('../src/items');
 
 describe('getBarcode unit test', function () {
@@ -71,8 +76,13 @@ describe('buildBarcode test',function () {
         expect(barcode).toEqual(result);
     });
 
+    it('buildBarcode_3',function () {
+        let zipcode = '123456789';
+        let barcode ='|:::||::|:|::||::|::|:|:|::||::|:::||::|:|:|:::|:|:|';
+        let result = buildBarcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
 });
-
 
 describe('getZipcode unit test',function () {
     it('getFormtedBarcode',function () {
@@ -121,4 +131,126 @@ describe('buildZipcode test',function () {
     });
 });
 
+describe('buildJudgeExecuteZipcode test',function () {
+    it('buildJudgeExecute_1',function () {
+        let zipcode = '74310';
+        let barcode ='||:::|:|::|::||::::||||::::|:|:|';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
 
+    it('buildJudgeExecute_2.1',function () {
+        let zipcode = '201438912';
+        let barcode ='|::|:|||::::::||:|::|::||:|::|:|:|:::::||::|:|||:::|';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+
+
+    it('buildJudgeExecute_3.3',function () {
+        let zipcode = '2014378912';
+        let barcode ='please enter the correct zipcode!';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+
+    it('buildJudgeExecute_2.1',function () {
+        let zipcode = '8912';
+        let barcode ='please enter the correct zipcode!';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+
+    it('buildJudgeExecute_2.1',function () {
+        let zipcode = '8914572';
+        let barcode ='please enter the correct zipcode!';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+
+    it('buildJudgeExecute_3.1.1.1',function () {
+        let zipcode = '20143-8912';
+        let barcode ='|::|:|||::::::||:|::|::||:|::|:|:|:::::||::|:|||:::|';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+
+    it('buildJudgeExecute_3.2',function () {
+        let zipcode = '20143-8-12';
+        let barcode ='please enter the correct zipcode!';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+
+    it('buildJudgeExecute_3.1.2',function () {
+        let zipcode = '2014-38912';
+        let barcode ='please enter the correct zipcode!';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+
+    it('buildJudgeExecute_2.2',function () {
+        let zipcode = '2014#8912';
+        let barcode ='please enter the correct zipcode!';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+
+    it('buildJudgeExecute_1.1',function () {
+        let zipcode = '74a10';
+        let barcode ='please enter the correct zipcode!';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+
+    it('buildJudgeExecute_3.1.1.2',function () {
+        let zipcode = '20143-89a2';
+        let barcode ='please enter the correct zipcode!';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+
+    it('buildJudgeExecute_3.1.1.2.1',function () {
+        let zipcode = '201s3-89a2';
+        let barcode ='please enter the correct zipcode!';
+        let result = buildJudgeExecuteZipcode(zipcode);
+        expect(barcode).toEqual(result);
+    });
+});
+
+describe('buildJudgeExecuteZipcode test',function () {
+    it('buildJudgeExecuteZipcode',function () {
+        let zipcode = '74310';
+        let barcode ='||:::|:|::|::||::::||||::::|:|:|';
+        let result = buildJudgeExecuteBarcode(barcode);
+        expect(zipcode).toEqual(result);
+    });
+
+    it('buildJudgeExecuteZipcode_1',function () {
+        let zipcode = '20143-8912';
+        let barcode ='|::|:|||::::::||:|::|::||:|::|:|:|:::::||::|:|||:::|';
+        let result = buildJudgeExecuteBarcode(barcode);
+        expect(zipcode).toEqual(result);
+    });
+
+    it('buildJudgeExecuteZipcode_1',function () {
+        let zipcode = 'please enter the correct barcode!';
+        let barcode ='::|:|||::::::||:|::|::||:|::|:|:|:::::||::|:|||:::|';
+        let result = buildJudgeExecuteBarcode(barcode);
+        expect(zipcode).toEqual(result);
+    });
+
+    it('buildJudgeExecuteZipcode_1',function () {
+        let zipcode = 'please enter the correct barcode!';
+        let barcode ='|::|||||::::::||:|::|::||:|::|:|:|:::::||::|:|||:::|';
+        let result = buildJudgeExecuteBarcode(barcode);
+        expect(zipcode).toEqual(result);
+    });
+
+    it('buildJudgeExecuteZipcode_1',function () {
+        let zipcode = 'please enter the correct barcode!';
+        let barcode ='|::|:|||::::::||:|::|::||:|::|:|:|:::::||::|:||::|:|';
+        let result = buildJudgeExecuteBarcode(barcode);
+        expect(zipcode).toEqual(result);
+    });
+});

@@ -1,4 +1,4 @@
-let {loadAllItems}=require('../src/items');
+let {loadAllItems, correntBarcode}=require('../src/items');
 
 let _ = require('lodash');
 
@@ -36,8 +36,7 @@ function buildBarcode(zipcode) {
     let arrayZipcode = getArrayZipcode(formatedZipcode);
     let checkNumber = getCheckNumber(arrayZipcode);
     let allItems = loadAllItems();
-    let barcode = getBarcode(allItems, checkNumber);
-    return barcode;
+    return getBarcode(allItems, checkNumber);
 }
 
 
@@ -73,17 +72,134 @@ function getZipcode(zipcodeArray) {
         return zipcodeArray.join('');
     }
 }
-let barcode = '|:::||::|:|::||::|::|:|:|::||::|:::||::|:|:|:::|:|:|';
+
+
 function buildZipcode(barcode) {
     let formatedBarcode = getFormatedBarcode(barcode);
     let zipcodeArray = getZipcodeArray(loadAllItems(), formatedBarcode);
-    let zipcode = getZipcode(zipcodeArray);
-    return zipcode;
+    return getZipcode(zipcodeArray);
 }
-console.log(getFormatedBarcode(barcode));
-console.log(getZipcodeArray(loadAllItems(), getFormatedBarcode(barcode)));
-console.log(getZipcode(getZipcodeArray(loadAllItems(), getFormatedBarcode(barcode))));
-console.log(buildZipcode(barcode));
+
+function buildJudgeExecuteZipcode(zipcode) {
+    if (zipcode.length === 5) {
+        let arrayZipcode = _.split(zipcode, '');
+        let numberZipcode = _.map(arrayZipcode, (n)=> {
+            return parseInt(n);
+        });
+        let found = _.includes(numberZipcode, NaN);
+        if (found) {
+            return 'please enter the correct zipcode!'
+        } else {
+            return buildBarcode(zipcode);
+        }
+    } else if (zipcode.length === 9) {
+        let arrayZipcode = _.split(zipcode, '');
+        let numberZipcode = _.map(arrayZipcode, (n)=> {
+            return parseInt(n);
+        });
+        let found = _.includes(numberZipcode, NaN);
+        if (found) {
+            return 'please enter the correct zipcode!'
+        } else {
+            return buildBarcode(zipcode);
+        }
+    } else if (zipcode.length === 10) {
+        let first_ = _.indexOf('-');
+        let last_ = _.lastIndexOf('-');
+        if (first_ === last_) {
+            let array = _.split(zipcode, '-');
+            if (array[0].length === 5 && array[1].length === 4) {
+                let numberArray_0 = _.map(array[0], (n)=> {
+                    return parseInt(n);
+                });
+                let numberArray_1 = _.map(array[1], (n)=> {
+                    return parseInt(n);
+                });
+                let found_0 = _.includes(numberArray_0, NaN);
+                let found_1 = _.includes(numberArray_1, NaN);
+                if (found_0) {
+                    return 'please enter the correct zipcode!'
+                } else if (found_1) {
+                    return 'please enter the correct zipcode!'
+                } else {
+                    return buildBarcode(zipcode);
+                }
+            } else {
+                return 'please enter the correct zipcode!'
+            }
+        } else if (first_ !== last_) {
+            return 'please enter the correct zipcode!'
+
+        } else {
+            return 'please enter the correct zipcode!'
+        }
+    } else {
+        return 'please enter the correct zipcode!'
+    }
+
+}
+
+function judgeBarcode(allBarcode, barcodeArray) {
+    let i = 0;
+    for (let subItems of barcodeArray) {
+        if (_.includes(allBarcode, subItems)) {
+            i++;
+        }
+    }
+    return i;
+}
+
+function buildJudgeExecuteBarcode(barcode) {
+    let array = _.split(barcode, '');
+    if (array[0] === '|' && array[array.length - 1] === '|') {
+        let dropFrist = _.drop(array);
+        let dropLast = _.dropRight(dropFrist);
+        if (dropLast.length === 30 || dropLast.length === 50) {
+            let arrayBarcode = _.chunk(dropLast, dropLast.length / (dropLast.length / 5));
+            let subBarcodes = _.map(arrayBarcode, (arr)=> {
+                return arr.join('');
+            });
+            let allBarcode = correntBarcode();
+            let found = judgeBarcode(allBarcode, subBarcodes);
+            if (found === subBarcodes.length) {
+                let checkBarcode = _.drop(subBarcodes, subBarcodes.length - 1);
+                let allItems = loadAllItems();
+                let {zipcode} = getMateZipcode(checkBarcode[0], allItems);
+                let formatedBarcode = getFormatedBarcode(barcode);
+                let zipcodeArray = getZipcodeArray(loadAllItems(), formatedBarcode);
+                let zipcodeSum = _.sum(zipcodeArray);
+                if (zipcode === 10 - zipcodeSum % 10) {
+                    return buildZipcode(barcode);
+                } else if (10 - zipcode % 10 === 10 && zipcode === 0) {
+                    return buildZipcode(barcode);
+                }
+                else {
+                    return 'please enter the correct barcode!'
+                }
+            } else {
+                return 'please enter the correct barcode!'
+            }
+        } else {
+            return 'please enter the correct barcode!'
+        }
+    } else {
+        return 'please enter the correct barcode!'
+    }
+}
+
+function zipcodeToBarcode(zipcode) {
+    let result = buildJudgeExecuteZipcode(zipcode);
+    if(zipcode === 'please enter the correct barcode!'){
+        return {
+            error:result
+        }
+    }else {
+        return{
+            text:result,
+            reset:ture
+        }
+    }
+}
 
 module.exports = {
     getFormatedZipcode: getFormatedZipcode,
@@ -94,5 +210,8 @@ module.exports = {
     getZipcodeArray: getZipcodeArray,
     getZipcode: getZipcode,
     buildBarcode: buildBarcode,
-    buildZipcode: buildZipcode
-}
+    buildZipcode: buildZipcode,
+    buildJudgeExecuteZipcode: buildJudgeExecuteZipcode,
+    buildJudgeExecuteBarcode,
+    zipcodeToBarcode
+};
