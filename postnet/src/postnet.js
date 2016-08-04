@@ -16,9 +16,9 @@ function zipcodeToBarcode(zipcode) {
 }
 
 function barcodeToZipcode(barcode) {
-  let formattedBarcode = formatBarcode(barcode);
+  let formattedBarcode = formatBarcode(barcode);console.log(formattedBarcode);
   if (formattedBarcode.type === true) {
-    let zipcode = trans2Zipcode(formattedBarcode.code, barcodeList);
+    let zipcode = trans2Zipcode(formattedBarcode, barcodeList);
     return checkCD(zipcode);
   } else {
     return {
@@ -60,16 +60,21 @@ function checkZipCode(zipcode) {
   }
 }
 function formatZipCode(correctZipCode) {
-  let zipCodeArray = correctZipCode.code.split('');
-  if (zipCodeArray.length === 10) {
-    return _.chain(zipCodeArray)
-      .difference(['-'])
+  if(correctZipCode.type === true){
+    let zipCodeArray = correctZipCode.code.split('');
+    if (zipCodeArray.length === 10) {
+      return _.chain(zipCodeArray)
+        .difference(['-'])
+        .map(x =>parseInt(x))
+        .value();
+    }
+    else return _.chain(zipCodeArray)
       .map(x =>parseInt(x))
       .value();
   }
-  else return _.chain(zipCodeArray)
-    .map(x =>parseInt(x))
-    .value();
+  else{
+    return{type: false,code:correctZipCode.code};
+  }
 }
 function addCheckCD(formattedZipCode) {
   let checkCD = 10 - _.sum(formattedZipCode) % 10;
@@ -82,8 +87,8 @@ function trans2Barcode(checkedCD, barcodeList) {
   return {type: true, code: _(beforeBarcode).join('')}
 }
 
-function formatBarcode(barcode) {console.log(barcode);
-  let temp = barcode.split('');
+function formatBarcode(barcode) {
+  let temp = barcode.split('');console.log(temp);
   if (temp.length !== 32 && temp.length !== 52) {
     return {type: false, code: barcode};
   }
@@ -101,35 +106,39 @@ function formatBarcode(barcode) {console.log(barcode);
   }
 }
 function trans2Zipcode(formattedBarcode, barcodeList) {
-  let beforeZipcode = _.map(formattedBarcode, function (formattedBarcode) {
-    return _.indexOf(barcodeList, formattedBarcode);
-  });console.log(beforeZipcode);
-  let tag = _.map(formattedBarcode, barcode => {
-    return !!barcodeList.includes(barcode);
-  });
-  if (tag.includes(false)) {
-    return {type: false, code: formattedBarcode};
-  }
-  else {
-    return _(beforeZipcode.join(''));
-  }
-
+    let beforeZipcode = _.map(formattedBarcode.code, function (formattedBarcode) {
+      return _.indexOf(barcodeList, formattedBarcode);
+    });
+    let tag = _.map(formattedBarcode.code, barcode => {
+      return !!barcodeList.includes(barcode);
+    });
+    if (tag.includes(false)) {
+      return {type: false, code: formattedBarcode.code.join('')};
+    }
+    else {
+      return _(beforeZipcode.join(''));
+    }
 }
 
-function checkCD(zipcode) {console.log(zipcode);
-  let zipcodeArray = zipcode.split('');
-  let checkCD = _.chain(zipcodeArray)
-    .map(x => parseInt(x))
-    .last()
-    .value();
-  let correctCHeckCD = 10 - _.sum(zipcodeArray) % 10;
-  if (checkCD === correctCHeckCD) {
-    if (zipcodeArray.length === 10) {
-      zipcodeArray.splice(5, 0, '-');
+function checkCD(zipcode) {
+  if(zipcode.type === true){
+    let zipcodeArray = zipcode.split('');
+    let checkCD = _.chain(zipcodeArray)
+      .map(x => parseInt(x))
+      .last()
+      .value();
+    let correctCHeckCD = 10 - _.sum(zipcodeArray) % 10;
+    if (checkCD === correctCHeckCD) {
+      if (zipcodeArray.length === 10) {
+        zipcodeArray.splice(5, 0, '-');
+      }
+      return {type: true, code: _.dropRight(zipcodeArray).join('')};
     }
-    return {type: true, code: _.dropRight(zipcodeArray).join('')};
+    else {
+      return {type: false, code: zipcode};
+    }
   }
-  else {
+  else{
     return {type: false, code: zipcode};
   }
 }

@@ -72,7 +72,6 @@ function commandInvalidInput() {
     error: 'Please input correct option:',
   }
 }
-
 module.exports = {
   commandMainPage,
   commandZipcodeToBarcodePage,

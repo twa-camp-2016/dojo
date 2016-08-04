@@ -41,5 +41,5 @@ module.exports = {
 };
 
 route('');
-route(2);
-route('|:::|:::|:|::||::|::|:|:|::|:|:|');
+route(1);
+  route('12345');

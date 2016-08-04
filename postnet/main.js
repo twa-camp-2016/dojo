@@ -5,6 +5,7 @@ while(1){
   let input = scanf('%s');
   let result = route(input);
   console.log(result.text);
+
 }
 
 

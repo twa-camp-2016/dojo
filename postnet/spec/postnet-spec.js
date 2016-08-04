@@ -4,7 +4,7 @@ let {route} = require('../src/route.js');
 
 let {loadBarcodeList} = require('../src/loadBarcodeTable.js');
 
-describe("postnet", function () {
+xdescribe("postnet", function () {
     it('1.checkZipCodeWithLess5', function () {
       let zipCode = '1234';
       let expected = {type: false, code: '1234'};
