@@ -16,20 +16,20 @@ let checkZipcode = function (input) {
         return checkTen(zipcode);
     }
 
-    return 'invalid_barcode';
+    return 'invalid_zipCode';
 };
 
 let checkFiveOrNine = function (zipcode) {
 
     let number = _(zipcode).filter(n => n !== '-').value();
 
-    return (number.length === 5 || number.length === 9) ? number : 'invalid_barcode';
+    return (number.length === 5 || number.length === 9) ? number : 'invalid_zipCode';
 };
 
 let checkTen = function (zipcode) {
     let number = _(zipcode).filter(n => n !== '-').value();
 
-    return number.length === 9 ? number : 'invalid_barcode';
+    return number.length === 9 ? number : 'invalid_zipCode';
 };
 
 let buildCheckDigit = function (zipcodes) {
@@ -51,13 +51,13 @@ let changeZipcodeToBarcode = function (input) {
 
     let zipcodes = checkZipcode(input);
 
-    if (zipcodes !== 'invalid_barcode') {
+    if (zipcodes !== 'invalid_zipCode') {
         let checkDigit = buildCheckDigit(zipcodes);
         let allcodes = allCodes();
 
         return buildBarcode(zipcodes, allcodes, checkDigit);
     }
 
-    return 'invalid_barcode';
+    return 'invalid_zipCode';
 };
 module.exports = {changeZipcodeToBarcode, checkZipcode, buildCheckDigit, buildBarcode};

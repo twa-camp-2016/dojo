@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.14.0"
+    "lodash": "^4.14.0",
+    "scanf": "^0.7.2"
   }
 }

@@ -35,12 +35,10 @@ describe('zipcodeToBarcode', () => {
     });
 
     it('changeBarcodeToZipcode', () =>{
-        const input = '|:::||::|:|::||::|::|:|:|::|:|:|';
-        let allCodes = require('../src/loadAllcodes');
-        const allcodes = allCodes();
-
-        const result = changeBarcodeToZipcode(input,allcodes);
-        const expected = '12345';
+        const input = '|:::||::|sa';
+        let allCodes = require('../src/loadAllcodes.js');
+        const result = changeBarcodeToZipcode(input);
+        const expected = 'invalid_barCode';
 
         expect(result).toEqual(expected);
     });
