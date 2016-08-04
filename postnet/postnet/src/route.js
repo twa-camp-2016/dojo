@@ -1,35 +1,39 @@
 let {
-    goToMenu,
-    // goToZipCodePageCommand,
-    // goToBarCodePageCommand,
-    // goToQuitPageCommand,
-    // goToDealErrorPageCommand,
-    // getBarcode,
-    // getZipCode
+    GoToMenu,
+        GoToZipCodePageCommand,
+        GoToBarCodePageCommand,
+        GoToQuitPageCommand,
+        GoToDealErrorPageCommand,
+        GetBarCode,
+        GetZipCode
 } = require('../src/command');
 
-let defualtMainMenu = {'nextGoto': goToMenu};
+let defualtMainMenu = {'nextGoto': GoToMenu};
 let mainMenu = defualtMainMenu;
-    function route(input) {
 
-    let a = mainMenu[`menu${input}`] || mainMenu['nextGoto'];
+class Route {
 
-    let tempMainmenu = a(input);
+    translate(input) {
 
-    if(tempMainmenu.mainMenu){
-        mainMenu = tempMainmenu.mainMenu;
+        let a = mainMenu[`menu${input}`] || mainMenu['nextGoto'];
+        let t = new a;
+        let tempMainmenu = t.translate(input);
 
-        return tempMainmenu.menu;
+        if (tempMainmenu.mainMenu) {
+            mainMenu = tempMainmenu.mainMenu;
+
+            return tempMainmenu.menu;
+        }
+        if (tempMainmenu.reset) {
+            mainMenu = defualtMainMenu;
+
+            return tempMainmenu.menu;
+        }
+        if (tempMainmenu.error) {
+            return tempMainmenu.error;
+        }
     }
-    if(tempMainmenu.reset){
-        mainMenu = defualtMainMenu;
-
-        return tempMainmenu.menu;
-    }
-    if(tempMainmenu.error){
-        return tempMainmenu.error;
-    }
-
 }
 
-module.exports = {route};
+
+module.exports = {Route};
