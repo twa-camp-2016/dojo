@@ -1,7 +1,7 @@
 "use strict";
 let _ = require("lodash");
-
 let {loadAllItems} = require("../src/loadItems.js");
+
 
 function zipCodeToBarCode(zipcode) {
     let flag = checkZipCodeFormate(zipcode);
@@ -99,8 +99,6 @@ function getFormatedZipCode(testedzipcodes) {
 function matchByTableBarcode(formatedzipcodes, AllItems) {
     let matchedBarcodes = _.map(formatedzipcodes, (element) => {
         let zipcode = _.find(AllItems, (code) => {
-            // if (code.barcode === element) {
-            //     return code.zipcode;
               return code.barcode === element;
         });
         return zipcode.zipcode;
@@ -108,13 +106,12 @@ function matchByTableBarcode(formatedzipcodes, AllItems) {
     return matchedBarcodes;
 }
 
+
 function addExtraForm(matchedbarcodes) {
     let precode = _.flatten(['|', matchedbarcodes, '|']);
     let finalbarcodes = precode.join('');
     return finalbarcodes;
 }
-
-
 
 
 function braCodeToZipCode(Barcodes) {
@@ -146,6 +143,7 @@ function _checkBarlength(Barcodes) {
         return false;
     }
 }
+
 function _checkBarFrame(Barcodes) {
     let bar = Barcodes.split('');
     if (bar[0] === '|' && bar[bar.length -1] === '|') {
@@ -195,7 +193,6 @@ function _checkCd(matchedBarcodes,AllItems) {
     if (checkcd === 11) {
         checkcd = 0
     }
-
     if (checkcd === rightcd) {
         return true
     }
@@ -237,8 +234,6 @@ function recheckFormate(matchedBarcodes) {
     }
     return a;
 }
-
-
 
 module.exports = {
     zipCodeToBarCode: zipCodeToBarCode,

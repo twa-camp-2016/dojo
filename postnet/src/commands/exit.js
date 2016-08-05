@@ -1,3 +1,10 @@
-module.exports = function (input) {
-    process.exit();
-};
+// module.exports = function (input) {
+//     process.exit();
+// };
+
+class Exit {
+      constructor(){
+          process.exit();
+      }
+}
+module.exports = Exit;

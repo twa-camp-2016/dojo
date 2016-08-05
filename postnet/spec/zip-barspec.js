@@ -87,8 +87,7 @@ describe('barcode and zipcode', () => {
     //     expect(testedZipcode).toEqual(expected);
     // });
 
-
-    it('#3', ()=> {text
+    it('#3', ()=> {
 
         let testedzipcodes = ['9', '5', '7', '1', '3'];
 
@@ -119,7 +118,7 @@ describe('barcode and zipcode', () => {
         expect(finalbarcodes).toEqual(expected);
     });
 
-    fit('#2', ()=> {
+    it('#2', ()=> {
         let zipcode = '12345';
 
         let finalbarcode = zipTransformBar(zipcode);

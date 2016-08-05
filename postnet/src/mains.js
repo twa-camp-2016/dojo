@@ -1,24 +1,41 @@
-// let readline = require('../src/route');
+// let route = require('./route');
 //
-// let  rl = readline.createInterface(process.stdin, process.stdout);
+// function mains() {
+//     console.log(route().text);
+//     process.stdin.setEncoding('utf8');
+//     process.stdin.on('data', (input) => {
+//         let result = route(input.trim());
 //
-// rl.setPrompt('Test> ');
-// rl.prompt();
-// while (1){
-//     rl.on( 'line',readline());
+//         console.log(result.text);
+//         if (result.reset) {
+//             console.log(route().text);
+//         }
+//     });
 // }
 //
+// mains();
 //
-// rl.on('close', function() {
-//     console.log('bye bye!');
-//     process.exit(0);
-// });
-let scanf = require('scanf');
+// module.exports = mains;
 
-let {route} =require('../src/route');
-let a = 0;
-while (1) {
-    let input = scanf('%s');
-    let b = route(input);
-    console.log('%s', b);
+let Route = require('./route');
+
+const route = new Route;
+
+function mains() {
+    let response = route.constructor(input);
+    console.log(response.text);
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('data', (input) => {
+        let result = route.handle(input.trim());
+
+        console.log(result.text);
+        if (result.reset) {
+            console.log(result.text);
+        }
+    });
 }
+
+mains();
+
+module.exports = mains;
+
