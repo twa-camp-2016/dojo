@@ -33,13 +33,8 @@ function route(input) {
   return {
     text: response.text
   }
-
 }
 
 module.exports = {
   route
 };
-
-route('');
-route(1);
-  route('12345');
