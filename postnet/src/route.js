@@ -1,32 +1,37 @@
 let {
-    prompt
+    promptCommand
 } = require('../src/commands');
-
 const flags = {
-    '*':prompt
+    '*': promptCommand
 };
 
 let mapping = flags;
-function route(inputs) {
-    let command = mapping[inputs]||mapping['*'];
-    let response = command(inputs);
-    if(response.newMapping){
-        mapping = response.newMapping;
-        return response.text
-    }else if(response.reset){
-        mapping = flags;
-        return response.text
-    }else if(response.error){
-        return response.error
 
-    }else {
-        return response.text
+class Route {
+    route(inputs) {
+        let command = mapping[inputs] || mapping['*'];
+        let aa = new command;
+        let response = aa.translate(inputs);
+        if (response.newMapping) {
+            mapping = response.newMapping;
+            return {
+                text: response.text
+            }
+        } else if (response.reset) {
+            mapping = flags;
+            return {
+                text: response.text,
+                rerun: true
+            }
+        } else if (response.error) {
+            return {text: response.error}
+        } else {
+            return {text: response.text}
+        }
     }
-
 }
 
 
 module.exports = {
-    route
-}
-
+    Route
+};

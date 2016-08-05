@@ -1,11 +1,13 @@
 let scanf = require('scanf');
-let {route} = require('./route');
+let {Route} = require('./route');
 
-let a = 0;
-for(let i = 1;i>0;){
+
+for (let i = 1; i > 0;) {
+    let rt = new Route();
     let input = scanf('%s');
-    let aaa = route(input);
-    console.log('%s', aaa);
-
+    let response = rt.route(input);
+    console.log('%s', response.text);
+    if (response.rerun) {
+        let response  = rt.route(input);
+    }
 }
-

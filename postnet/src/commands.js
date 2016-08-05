@@ -1,94 +1,102 @@
 let {
-    buildJudgeExecuteZipcode,
-    buildJudgeExecuteBarcode
+    ZipcodeToBarcode,
+    BarcodeToZipcode
 } = require('../src/main');
 
-function prompt() {
-    let lines = ['According to need to choose option'];
-    lines.push('1.zipcode to barcode');
-    lines.push('2.barcode to zipcode');
-    lines.push('3.quit');
-    let reminder = lines.join('\n');
-    return {
-        text:reminder,
-        newMapping:{
-            '1':goToBarcodePage,
-            '2':goToZipcodePage,
-            '3':goToQuit,
-            '*':other
-        }
-    }
-}
-
-function goToBarcodePage(zipcode) {
-    return {
-        text:'please input zipcode!',
-        newMapping:{
-            '*':zipcodeToBarcode
-        }
-    }
-}
 
 
-function goToZipcodePage() {
-    return {
-        text:'please input barcode!',
-        newMapping:{
-            '*':barcodeToZipcode
-        }
-    }
-}
 
-function goToQuit() {
-    return {
-        text:'welcome next',
-        newMapping:{
-            '*':prompt
-        }
-    }
-}
-
-
-function other() {
-    return {
-        error: 'please give right input '
-
-    }
-
-}
-
-function zipcodeToBarcode(zipcode) {
-    let result = buildJudgeExecuteZipcode(zipcode);
-    if(result === 'please enter the correct barcode!'){
+class promptCommand{
+    translate() {
+        let lines = ['According to need to choose option'];
+        lines.push('1.zipcode to barcode');
+        lines.push('2.barcode to zipcode');
+        lines.push('3.quit');
+        let reminder = lines.join('\n');
         return {
-            error:result
-        }
-    }else {
-        return{
-            text:result,
-            reset:true
+            text:reminder,
+            newMapping:{
+                '1':goToBarcodeCommand,
+                '2':goToZipcodeCommand,
+                '3':goToQuitCommand,
+                '*':otherCommand
+            }
         }
     }
 }
 
-function barcodeToZipcode(barcode) {
-    let result = buildJudgeExecuteBarcode(barcode);
-    if(result === 'please enter the correct barcode!'){
-        return{
-            error:result
-        }
-    }else {
-        return{
-            text:result,
-            reset:true
+class goToBarcodeCommand{
+    translate(zipcode) {
+        return {
+            text:'please input zipcode!',
+            newMapping:{
+                '*':zicodeToBarcodeCommand
+            }
         }
     }
 }
+
+class goToZipcodeCommand{
+    translate(barcode) {
+        return {
+            text:'please input barcode!',
+            newMapping:{
+                '*':barcodeToZipcodeCommand
+            }
+        }
+    }
+}
+
+class goToQuitCommand{
+    translate() {
+        process.exit();
+    }
+}
+
+
+class otherCommand{
+    translate() {
+        return {
+            error: 'please give right input '
+        }
+    }
+}
+
+class zicodeToBarcodeCommand{
+    translate(zipcode) {
+        let zipcodeToBarcode = new ZipcodeToBarcode();
+        let result = zipcodeToBarcode.buildJudgeExecuteZipcode(zipcode);
+        if(result === 'please enter the correct zipcode!'){
+            return {
+                error:result
+            }
+        }else {
+            return{
+                text:result,
+                reset:true
+            }
+        }
+    }
+}
+
+class barcodeToZipcodeCommand{
+    translate(barcode) {
+        let barcodeToZipcode = new BarcodeToZipcode();
+        let result = barcodeToZipcode.buildJudgeExecuteBarcode(barcode);
+        if(result === 'please enter the correct barcode!'){
+            return{
+                error:result
+            }
+        }else {
+            return{
+                text:result,
+                reset:true
+            }
+        }
+    }
+}
+
 
 module.exports = {
-    prompt,
-    goToBarcodePage,
-    goToZipcodePage,
-    goToQuit,
-    other
+    promptCommand
 }
