@@ -1,0 +1,11 @@
+let {CommandResponse} = require('../src/command-response');
+
+class DealInvaildInputCommand{
+  runCommand(){
+    return new CommandResponse({
+      error: 'Please input correct option:',
+    })
+  }
+}
+
+module.exports = DealInvaildInputCommand;
