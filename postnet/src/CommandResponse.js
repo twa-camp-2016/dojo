@@ -5,6 +5,5 @@ class CommandResponse{
         this.reset =reset;
         this.newMapping = newMapping;
     }
-
 }
 module.exports = CommandResponse;

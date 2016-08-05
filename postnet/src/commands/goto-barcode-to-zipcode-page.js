@@ -6,12 +6,11 @@
 //         }
 //     };
 // };
-
 let BarcodeToZipcodeCommand = require('./barcode-to-zipcode');
 let CommandResponse = require('../CommandResponse');
 
 class GotoBarToZipPage {
-    constructor() {
+    run() {
         return new CommandResponse({
             text: 'Please input bar code:',
             newMapping: {

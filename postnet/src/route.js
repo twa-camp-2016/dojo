@@ -30,6 +30,7 @@ let commandMainPage = require('../src/commands/goto-main-page');
 //     };
 // }
 // module.exports = route;
+
 let RouteResponse = require('./route-response');
 
 const defaultMapping = {"*": new commandMainPage() };
@@ -40,21 +41,21 @@ class Route {
     }
     handle(input) {
         let command = this.mapping[input] || this.mapping['*'];
-        let response = command.constructor(input);
+        let response = command.run(input);
         if (response.error) {
             return new RouteResponse({
                 text: response.error
             });
         }
         if (response.reset) {
-            mapping = defaultMapping;
+            this.mapping = defaultMapping;
             return new  RouteResponse({
                 text: response.text,
                 reset: true
             });
         }
         if (response.newMapping) {
-            mapping = response.newMapping;
+            this.mapping = response.newMapping;
             return new RouteResponse({
                 text: response.text
             });
@@ -66,3 +67,5 @@ class Route {
 }
 
 module.exports = Route;
+
+

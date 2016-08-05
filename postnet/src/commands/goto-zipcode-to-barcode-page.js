@@ -10,7 +10,7 @@
 let ZipcodeToBrcodeCommand = require('./zipcode-to-barcode');
 let CommandResponse = require('../CommandResponse');
 class GotoZiptoBarPage {
-    constructor() {
+    run() {
         return new CommandResponse({
             text: 'Please input zip code:',
             newMapping: {

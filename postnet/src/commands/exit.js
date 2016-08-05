@@ -3,7 +3,7 @@
 // };
 
 class Exit {
-      constructor(){
+      run(){
           process.exit();
       }
 }

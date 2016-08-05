@@ -4,6 +4,7 @@ let {loadAllItems} = require("../src/loadItems.js");
 
 
 function zipCodeToBarCode(zipcode) {
+
     let flag = checkZipCodeFormate(zipcode);
     if(flag === true){
         let finalbarcode = zipTransformBar(zipcode);
@@ -112,6 +113,16 @@ function addExtraForm(matchedbarcodes) {
     let finalbarcodes = precode.join('');
     return finalbarcodes;
 }
+
+
+
+
+
+
+
+
+
+
 
 
 function braCodeToZipCode(Barcodes) {
@@ -255,4 +266,3 @@ module.exports = {
     recheckFormate: recheckFormate,
 
 };
-

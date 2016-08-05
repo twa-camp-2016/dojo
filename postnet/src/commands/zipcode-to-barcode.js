@@ -15,7 +15,7 @@ let {zipCodeToBarCode} = require('../main');
 // };
 let CommandResponse = require('../CommandResponse');
 class ZipcodeToBarcode {
-     constructor(zipcode){
+     run(zipcode){
          let barcode = zipCodeToBarCode(zipcode);
 
          if (barcode === false) {

@@ -1,41 +1,26 @@
-// let route = require('./route');
-//
-// function mains() {
-//     console.log(route().text);
-//     process.stdin.setEncoding('utf8');
-//     process.stdin.on('data', (input) => {
-//         let result = route(input.trim());
-//
-//         console.log(result.text);
-//         if (result.reset) {
-//             console.log(route().text);
-//         }
-//     });
-// }
-//
-// mains();
-//
-// module.exports = mains;
 
+let readline = require('readline');
 let Route = require('./route');
 
-const route = new Route;
+const route = new  Route();
 
-function mains() {
-    let response = route.constructor(input);
+function sendToRoute(line) {
+    let response = route.handle(line);
     console.log(response.text);
-    process.stdin.setEncoding('utf8');
-    process.stdin.on('data', (input) => {
-        let result = route.handle(input.trim());
-
-        console.log(result.text);
-        if (result.reset) {
-            console.log(result.text);
-        }
-    });
+    if(response.reset){
+        sendToRoute(line);
+    }
 }
+ function aaa() {
+    let rl = readline.createInterface({
+        input: process.stdin,
+        output:process.stdout,
+        terminal:false
+    });
+    rl.on('line',function (line) {
+         sendToRoute(line)
+    });
+    sendToRoute();
+};
 
-mains();
-
-module.exports = mains;
-
+aaa();

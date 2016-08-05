@@ -5,7 +5,7 @@
 // };
 
 class Invalidinput {
-    constructor() {
+    run() {
         return {
             error: 'Please give right input'
         }

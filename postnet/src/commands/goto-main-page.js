@@ -17,7 +17,7 @@ let commandInvalidInput = require('../commands/invalid-input');
 // };
 let CommandRespose = require('../CommandResponse');
 class GotoMainPage{
-    constructor(){
+    run(){
         return new CommandRespose({
             text:
                 '|1. Translate zip code to bar code \n|2. Translate bar code to zip code \n|3. Quit+ |Please input your choices(1~3)',
