@@ -64,19 +64,40 @@ class barcodetozipcodeTrans{
         }
     }
 
-    _checkBarcodeFormate(matchedBarcodes,AllItems) {
-        let result = _.map(matchedBarcodes,(element) => {
-            let a = _.find(AllItems, n => {return element === n.zipcode});
-            if( a === undefined){ return 0}
-            else {return  1}
-        });
-        if (result.includes(0)) {
-            return false;
+    _checkCd(matchedBarcodes,AllItems) {
+        let rightcd =10 -  _.chain(matchedBarcodes).dropRight().reduce((result,element) => {
+                let a = _.find(AllItems, item => {return item.zipcode === element});
+                return result += parseInt(a.barcode);
+            },0).value()%10;
+        if (rightcd === 10) {
+            rightcd = 0
+        }
+
+        let code = [7, 4, 2, 1, 0];
+        let check = _.chain(matchedBarcodes).takeRight().split('').map(a => {
+            if (a === '|') {
+                return 1
+            }
+            else if (a === ':') {
+                return 0
+            }
+        }).value();
+
+        let checkcd = 0;
+        for (let i = 0; i < code.length; i++) {
+            checkcd += code[i] * check[i];
+        }
+        if (checkcd === 11) {
+            checkcd = 0
+        }
+        if (checkcd === rightcd) {
+            return true
         }
         else {
-            return true;
+            return false;
         }
     }
+
     BarTransformBarZip(testedBarcodes) {
         let formatedBarcodes = this.getFormatedBarcode(testedBarcodes);
         // let AllItems = loadAllItems();

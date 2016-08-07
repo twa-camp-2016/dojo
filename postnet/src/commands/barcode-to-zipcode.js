@@ -1,4 +1,4 @@
-let {braCodeToZipCode} = require('../main');
+let barcodetozipcodeTrans = require('../barcodetozipcodeTrans');
 // module.exports = function (barcode) {
 //     let zipcode = braCodeToZipCode(barcode);
 //     if (zipcode === false) {
@@ -13,16 +13,18 @@ let {braCodeToZipCode} = require('../main');
 //     }
 // };
 let CommandResponse = require('../CommandResponse');
+
+let barcodetozipcode = new barcodetozipcodeTrans();
 class BarcodeToZipcode {
     run(barcode) {
-        let zipcode = braCodeToZipCode(barcode);
-        if (zipcode === false) {
+        let zipcode = barcodetozipcode.run(barcode);
+        if (zipcode.result === false) {
             return new CommandResponse({
                     error: 'Please give right input'
             });
         } else {
             return new CommandResponse({
-                text: zipcode,
+                text: zipcode.result,
                 reset: true
             });
         }

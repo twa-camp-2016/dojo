@@ -3,7 +3,7 @@ let {loadAllItems} = require("../src/loadItems.js");
 let coreResponse = require('./coreResponse');
 
 class zipcodetobarcodeTrans {
-    // constructor(){}
+    constructor(){}
 
     run(zipcode){
         return this.zipCodeToBarCode(zipcode);
@@ -69,12 +69,13 @@ class zipcodetobarcodeTrans {
     checkZipCodeFormate(zipcode) {
         if (this._checklength(zipcode) === true && this._checknumber(zipcode) === true
             &&this. _checklocation(zipcode) === true && this._checkletter(zipcode) === true) {
-
             return true;
         } else {
             return false;
         }
     }
+
+
 
     // #3
     zipTransformBar(zipcode) {

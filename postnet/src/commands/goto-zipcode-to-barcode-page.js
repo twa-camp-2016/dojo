@@ -9,6 +9,7 @@
 
 let ZipcodeToBrcodeCommand = require('./zipcode-to-barcode');
 let CommandResponse = require('../CommandResponse');
+
 class GotoZiptoBarPage {
     run() {
         return new CommandResponse({
